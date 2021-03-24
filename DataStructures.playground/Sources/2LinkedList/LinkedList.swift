@@ -11,6 +11,7 @@ public struct LinkedList<Element> {
     }
     
     public mutating func push(_ value: Element) {
+        copyNodes()
         let node = ListNode<Element>(value)
         if head == nil {
             head = node
@@ -22,6 +23,7 @@ public struct LinkedList<Element> {
     }
     
     public mutating func insert(_ value: Element, after index: Int) {
+        copyNodes()
         if index == 0 {
             push(value)
             return
@@ -42,6 +44,7 @@ public struct LinkedList<Element> {
     }
     
     public mutating func append(_ value: Element) {
+        copyNodes()
         let node = ListNode<Element>(value)
         if isEmpty {
             head = node
@@ -54,6 +57,7 @@ public struct LinkedList<Element> {
     
     @discardableResult
     public mutating func pop() -> Element? {
+        copyNodes()
         guard let headNode = head else { return nil }
         let value = headNode.value
         self.head = headNode.next
@@ -65,7 +69,7 @@ public struct LinkedList<Element> {
     
     @discardableResult
     public mutating func removeLast() -> Element? {
-        
+        copyNodes()
         guard let headNode = head else { return nil }
         //        print("head : \(String(describing: headNode))")
         //        print("tail : \(String(describing: tail!))")
@@ -90,6 +94,7 @@ public struct LinkedList<Element> {
     
     @discardableResult
     public mutating func remove(after index: Int) -> Element? {
+        copyNodes()
         var tempIndex = 0
         var node = head
         while node != nil && tempIndex < index {
@@ -103,6 +108,8 @@ public struct LinkedList<Element> {
     }
 }
 
+// MARK: Print LinkedList
+
 extension LinkedList: CustomStringConvertible {
     public var description: String {
         guard let head = head else {
@@ -111,6 +118,8 @@ extension LinkedList: CustomStringConvertible {
         return String(describing: head)
     }
 }
+
+// MARK: Collection
 
 extension LinkedList: Collection {
     
@@ -152,5 +161,28 @@ extension LinkedList: Collection {
     // 4
     public subscript(position: Index) -> Element {
         position.node!.value
+    }
+}
+
+// MARK: COW
+
+extension LinkedList {
+    private mutating func copyNodes() {
+        guard head != nil else { return }
+        
+        guard let value = head?.value else {
+            return
+        }
+
+        var oldNode = head
+        var newNode: ListNode? = ListNode<Element>(value)
+        head = newNode
+        
+        while let nextOldNode = oldNode?.next {
+            newNode?.next = ListNode<Element>(nextOldNode.value)
+            newNode = newNode?.next
+            oldNode = oldNode?.next
+        }
+        tail = newNode
     }
 }

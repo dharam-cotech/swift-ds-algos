@@ -4,8 +4,9 @@ public class ListNode<Element> {
     public var value: Element
     public var next: ListNode<Element>?
     
-    public init(_ value: Element) {
+    public init(_ value: Element, next: ListNode<Element>? = nil) {
         self.value = value
+        self.next = next
     }
 }
 
