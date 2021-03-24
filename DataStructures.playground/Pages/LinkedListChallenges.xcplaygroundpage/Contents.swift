@@ -7,11 +7,7 @@ import Foundation
 example(of: "using LinkedList") {
     
     var list = LinkedList<Int>()
-    list.push(1)
-    list.push(2)
-    list.push(3)
-    list.push(4)
-    list.push(5)
+    (1...5).forEach { list.push($0) }
     print(list)
     
     list.append(6)
@@ -31,7 +27,10 @@ example(of: "using LinkedList") {
     
     list.pop()
     print(list)
+    print("Remove after 1: ")
     list.remove(after: 1)
+    print(list)
+    print("Remove after 2: ")
     list.remove(after: 2)
     print(list)
     print("Remove last : " + String(list.removeLast() ?? -1))
@@ -76,16 +75,55 @@ example(of: "array cow") {
 }
 
 example(of: "linked list cow") {
-  var list1 = LinkedList<Int>()
-  list1.append(1)
-  list1.append(2)
-  var list2 = list1
-  print("List1: \(list1)")
-  print("List2: \(list2)")
-  
-  print("After appending 3 to list2")
-  list2.append(3)
-  print("List1: \(list1)")
-  print("List2: \(list2)")
+    var list1 = LinkedList<Int>()
+    list1.append(1)
+    list1.append(2)
+    var list2 = list1
+    print("List1: \(list1)")
+    print("List2: \(list2)")
+    
+    print("After appending 3 to list2")
+    list2.append(3)
+    print("List1: \(list1)")
+    print("List2: \(list2)")
+    
+    print("Removing middle node on list2")
+    list2.remove(after: 0)
+    print("List2: \(list2)")
+}
+
+example(of: "linked list challanges") {
+    var list = LinkedList<Int>()
+    (1...6).forEach { list.push($0) }
+    print(list)
+    
+    print("Print reversed list")
+    list.printListInReverse()
+    
+    print("Reversed list")
+    list.reverseLinkedList()
+    print(list)
+    
+    print("Middle node: " + (list.middleNode()?.description ?? "Not found"))
+    
+    var list1 = LinkedList<Int>()
+    (1...6).forEach { list1.push($0) }
+    var list2 = LinkedList<Int>()
+    (7...12).forEach { list2.push($0) }
+    print("Merged list")
+    print(list1)
+    print(list2)
+    if let mergedList = LinkedList<Int>.mergeLists(list1: list1, list2: list2) {
+        print(mergedList)
+    }
+    
+    
+    list = LinkedList<Int>()
+    (1...6).forEach { list.push($0) }
+    list.push(2)
+    (1...6).forEach { list.push($0) }
+    print(list)
+    list.removeAllOccurences(of: 2)
+    print(list)
 }
 //: [Next](@next)

@@ -1,6 +1,6 @@
 import Foundation
 
-public struct LinkedList<Element> {
+public struct LinkedList<Element: Equatable> {
     private var head: ListNode<Element>?
     private var tail: ListNode<Element>?
     
@@ -168,6 +168,7 @@ extension LinkedList: Collection {
 
 extension LinkedList {
     private mutating func copyNodes() {
+        guard !isKnownUniquelyReferenced(&head) else { return }
         guard head != nil else { return }
         
         guard let value = head?.value else {
@@ -184,5 +185,125 @@ extension LinkedList {
             oldNode = oldNode?.next
         }
         tail = newNode
+    }
+}
+
+// MARK: Algos
+
+extension LinkedList {
+    public func printListInReverse() {
+        printInReverse(node: head)
+    }
+    
+    private func printInReverse(node: ListNode<Element>?) {
+        guard node != nil else { return }
+        printInReverse(node: node?.next)
+        guard let value = node?.value else { return }
+        print("\(value) -> ")
+    }
+    
+    @discardableResult
+    public mutating func reverseLinkedList() -> ListNode<Element>? {
+        guard head != nil else {
+            return head
+        }
+        
+        var cNode = head?.next
+        let pNode = head
+        
+        while pNode?.next != nil {
+            pNode?.next = cNode?.next
+            cNode?.next = head
+            head = cNode
+            cNode = pNode?.next
+        }
+        
+        tail = pNode
+        return head
+    }
+    
+    public func middleNode() -> ListNode<Element>? {
+        guard head != nil else {
+            return head
+        }
+        
+        var sNode = head
+        var fNode = head
+        
+        while fNode?.next != nil {
+            fNode = fNode?.next?.next
+            sNode = sNode?.next
+        }
+        
+        return sNode
+    }
+    
+    public mutating func removeAllOccurences(of value: Element) {
+        copyNodes()
+        guard head != nil else {
+            return
+        }
+        
+        while let headNode = head, headNode.value == value {
+            self.head = self.head?.next
+        }
+        
+        var node = head?.next
+        var pNode = head
+        
+        while node != nil {
+            if value == node?.value {
+                pNode?.next = node?.next
+                node = pNode?.next
+                continue
+            }
+            pNode = node
+            node = node?.next
+        }
+        
+        tail = pNode
+    }
+    
+    public static func mergeLists(list1: LinkedList<Int>?, list2: LinkedList<Int>?) -> LinkedList<Int>? {
+        guard var list1 = list1,
+              var list2 = list2 else {
+            return nil
+        }
+        
+        guard !list1.isEmpty else {
+            return list2
+        }
+        
+        guard !list2.isEmpty else {
+            return list1
+        }
+        
+        var newList = LinkedList<Int>()
+        
+        var val1 = list1.pop()
+        var val2 = list2.pop()
+        
+        while let value1 = val1,
+              let value2 = val2 {
+            if value1 < value2 {
+                newList.append(value1)
+                val1 = list1.pop()
+            } else {
+                newList.append(value2)
+                val2 = list2.pop()
+            }
+        }
+        
+        while let value1 = val1 {
+            newList.append(value1)
+            val1 = list1.pop()
+        }
+        
+        while let value2 = val2 {
+            newList.append(value2)
+            val2 = list2.pop()
+        }
+        
+        return newList
     }
 }

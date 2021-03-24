@@ -1,6 +1,6 @@
 import Foundation
 
-public class ListNode<Element> {
+public class ListNode<Element: Equatable> {
     public var value: Element
     public var next: ListNode<Element>?
     
