@@ -1,11 +1,14 @@
 
-var stack = Stack<String>()
-stack.push(element: "ram")
-stack.push(element: "sia")
-stack.push(element: "maruti")
-stack.push(element: "lakhan")
-stack.push(element: "ram")
-print(stack)
+example(of: "using Stack") {
+    
+    var stack = Stack<String>()
+    stack.push(element: "ram")
+    stack.push(element: "sia")
+    stack.push(element: "maruti")
+    stack.push(element: "lakhan")
+    stack.push(element: "ram")
+    print(stack)
+}
 
 // MARK: reversedArray
 
@@ -17,8 +20,10 @@ func reversedArray(elements: [String]) -> [String] {
     return elements.compactMap { _ in stack.pop() }
 }
 
-let reverseArray = reversedArray(elements: ["a", "b", "c", "d"])
-print("Reversed Array : " + reverseArray.description)
+example(of: "using reversedArray") {
+    let reverseArray = reversedArray(elements: ["a", "b", "c", "d"])
+    print("Reversed Array : " + reverseArray.description)
+}
 
 // MARK: Balance the parentheses
 
@@ -38,10 +43,12 @@ func hasParenthesesBalanced(input: String) -> Bool {
     return stack.isEmpty
 }
 
-let input1 = "h((e))llo(world)()"
-let input2 = "(hello world"
-print("hasParenthesesBalanced1 : " + String(hasParenthesesBalanced(input: input1)))
-print("hasParenthesesBalanced2 : " + String(hasParenthesesBalanced(input: input2)))
+example(of: "using hasParenthesesBalanced") {
+    let input1 = "h((e))llo(world)()"
+    let input2 = "(hello world"
+    print("hasParenthesesBalanced1 : " + String(hasParenthesesBalanced(input: input1)))
+    print("hasParenthesesBalanced2 : " + String(hasParenthesesBalanced(input: input2)))
+}
 
 
 
