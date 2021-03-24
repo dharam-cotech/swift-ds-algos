@@ -3,5 +3,6 @@
     <pages>
         <page name='StackChallenges'/>
         <page name='LinkedListChallenges'/>
+        <page name='QueueChallenges'/>
     </pages>
 </playground>
