@@ -2,31 +2,55 @@ import Foundation
 
 public struct QueueCircularArray<T>: Queue {
     
-    private var data: [T?] = []
-    private var front = -1
-    private var rear = -1
+    private var array: [T?]
+    private var read = 0
+    private var write = 0
     
-    public init() {}
+    public init(capacity: Int) {
+        array = Array.init(repeating: nil, count: capacity)
+    }
     
     mutating public func enqueue(_ element: T) {
-        
+        guard !isFull else {
+            return
+        }
+        array[write % array.count] = element
+        write += 1
     }
     
     mutating public func dequeue() -> T? {
-        return nil
+        guard !isEmpty else {
+            return nil
+        }
+        let readValue = array[read]
+        array[read % array.count] = nil
+        read = read + 1
+        return readValue
     }
     
     public var isEmpty: Bool {
-        front == rear
+        availableSpaceForReading == 0
+    }
+    
+    public var isFull: Bool {
+        availableSpaceForWriting == 0
+    }
+    
+    private var availableSpaceForReading: Int {
+        write - read
+    }
+    
+    private var availableSpaceForWriting: Int {
+        array.count - availableSpaceForReading
     }
     
     public var peek: T? {
-        data[front]
+        array[read]
     }
 }
 
 extension QueueCircularArray: CustomStringConvertible {
     public var description: String {
-        String(describing: data)
+        String(describing: array)
     }
 }
