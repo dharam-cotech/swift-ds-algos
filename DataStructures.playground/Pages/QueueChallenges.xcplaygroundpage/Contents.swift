@@ -29,6 +29,12 @@ example(of: "Queue with circular array") {
 }
 
 example(of: "Queue with double stack") {
-    
+    var queue = QueueDoubleStack<Int>()
+    (1...7).forEach { queue.enqueue($0) }
+    print(queue)
+    queue.dequeue()
+    queue.dequeue()
+    queue.enqueue(7)
+    print(queue)
 }
 //: [Next](@next)
