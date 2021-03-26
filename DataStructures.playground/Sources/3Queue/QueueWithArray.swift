@@ -30,3 +30,20 @@ extension QueueWithArray: CustomStringConvertible {
     }
 }
 
+extension QueueWithArray {
+    public mutating func reversed() {
+        var stack = Stack<T>()
+        while !isEmpty {
+            if let value = dequeue() {
+                stack.push(element: value)
+            }
+        }
+        
+        while !stack.isEmpty {
+            if let value = stack.pop() {
+                enqueue(value)
+            }
+        }
+    }
+}
+

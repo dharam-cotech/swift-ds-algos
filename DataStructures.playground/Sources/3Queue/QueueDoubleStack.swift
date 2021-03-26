@@ -25,7 +25,8 @@ public struct QueueDoubleStack<T>: Queue {
     }
     
     public var peek: T? {
-        !leftStack.isEmpty ? leftStack.last : rightStack.first
+        //!leftStack.isEmpty ? leftStack.last : rightStack.first
+        nil
     }
     
     private mutating func copyLeftToRightStack() {

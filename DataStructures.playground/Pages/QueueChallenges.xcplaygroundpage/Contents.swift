@@ -10,6 +10,9 @@ example(of: "Queue with array") {
     queue.dequeue()
     queue.dequeue()
     print(queue)
+    
+    queue.reversed()
+    print("Reversed queue: \(queue)")
 }
 
 example(of: "Queue with Doubly Linked list") {
